@@ -45,12 +45,18 @@ public_users.get("/", async (req, res) => {
 });
 
 
+function getBooksDetails(isbn) {
+    return new Promise((resolve) => {
+        resolve(books[isbn]);
+    });
+}
+
 
 // Get book details based on ISBN
-public_users.get("/isbn/:isbn", (req, res) => {
+public_users.get("/isbn/:isbn", async (req, res) => {
     const isbn = req.params.isbn;
 
-    const book = books[isbn];
+    const book = await getBooksDetails(isbn);
 
     if (book) {
         return res.json(book);
