@@ -99,7 +99,7 @@ function getBooksByTitle(title) {
             book => book.title.toLowerCase() === title.toLowerCase()
         );
 
-        resolve(titleBooks);
+        resolve(titleBook);
     });
 }
 
@@ -110,7 +110,7 @@ public_users.get("/title/:title", async (req, res) => {
     const titleBook = await getBooksByTitle(title);
 
     if (titleBook) {
-        return res.json(book);
+        return res.json(titleBook);
     }
 
     return res.status(404).json({
