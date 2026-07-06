@@ -80,27 +80,36 @@ function getBooksByAuthor(author) {
 // Get book details based on author
 public_users.get("/author/:author", async (req, res) => {
     const author = req.params.author;
-
+    
     const authorBooks = await getBooksByAuthor(author);
 
     if (authorBooks.length > 0) {
         return res.json(authorBooks);
     }
-
+    
     return res.status(404).json({
         message: "No books found for this author!"
     });
 });
 
+
+function getBooksByTitle(title) {
+    return new Promise((resolve) => {
+        const titleBook = Object.values(books).find(
+            book => book.title.toLowerCase() === title.toLowerCase()
+        );
+
+        resolve(titleBooks);
+    });
+}
+
 // Get all books based on title
-public_users.get("/title/:title", (req, res) => {
+public_users.get("/title/:title", async (req, res) => {
     const title = req.params.title;
 
-    const book = Object.values(books).find(
-        book => book.title.toLowerCase() === title.toLowerCase()
-    );
+    const titleBook = await getBooksByTitle(title);
 
-    if (book) {
+    if (titleBook) {
         return res.json(book);
     }
 
