@@ -67,13 +67,21 @@ public_users.get("/isbn/:isbn", async (req, res) => {
     });
 });
 
+function getBooksByAuthor(author) {
+    return new Promise((resolve) => {
+        const authorBooks = Object.values(books).filter(
+            book => book.author.toLowerCase() === author.toLowerCase()
+        );
+
+        resolve(authorBooks);
+    });
+}
+
 // Get book details based on author
-public_users.get("/author/:author", (req, res) => {
+public_users.get("/author/:author", async (req, res) => {
     const author = req.params.author;
 
-    const authorBooks = Object.values(books).filter(
-        book => book.author.toLowerCase() === author.toLowerCase()
-    );
+    const authorBooks = await getBooksByAuthor(author);
 
     if (authorBooks.length > 0) {
         return res.json(authorBooks);
